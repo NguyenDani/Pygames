@@ -1,8 +1,10 @@
 # Pygames
-Welcome to my personal pygame projects
+Welcome to my/our personal pygame projects
 
 Developer(s):
-Daniel Nguyen
+
+* Daniel Nguyen
 
 Game(s):
-Snake (Work in progress)
+
+* Snake (Work in progress)
