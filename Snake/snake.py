@@ -2,6 +2,8 @@ import pygame
 import random
 import time
 
+pygame.init()
+
 # Display
 window_x = 720
 window_y = 480
@@ -20,8 +22,14 @@ snake_position = [window_x/2, window_y/2]
 direction = "up"
 k_change = "up"
 
+# Game Over text
+font = pygame.font.SysFont("Comic Sans MS", 32)
+text = font.render("Game Over", True, snake_color)
+textRect = text.get_rect()
+textRect.center = (window_x/2, window_y/2)
 
 running = True
+gameover = False
 
 # Run
 while running:
@@ -36,6 +44,12 @@ while running:
                 k_change = "left"
             if event.key == pygame.K_RIGHT:
                 k_change = "right"
+            
+            #restart
+            if event.key == pygame.K_r and gameover == True:
+                gameover = False
+                snake_position = [window_x/2, window_y/2]
+                snake_speed = 15
 
     # Key change and direction
     if k_change == "up" and direction != "down":
@@ -55,17 +69,25 @@ while running:
         dir_x = snake_size
         dir_y = 0
 
+    # Updating snake position
     snake_position[0] += dir_x
     snake_position[1] += dir_y
 
-    # QUIT
-    if event.type == pygame.QUIT:
-        running = False
+    # Game Over conditions
+    if snake_position[0] >= window_x or snake_position[0] < 0 or snake_position[1] >= window_y or snake_position[1] < 0:
+        gameover = True
+        snake_speed = 0
+        screen.blit(text, textRect)
 
-    screen.fill(black)
+    if gameover != True:
+        screen.fill(black)
 
     pygame.draw.rect(screen, snake_color, (snake_position[0], snake_position[1], snake_size, snake_size))
 
     clock.tick(snake_speed)
+
+    # QUIT
+    if event.type == pygame.QUIT:
+        running = False
 
     pygame.display.update()
